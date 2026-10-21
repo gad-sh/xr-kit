@@ -1,0 +1,43 @@
+// gadxr design system: Base UI-style components that render as HTML, or as
+// A-Frame entities inside <Scene3D> (or <Space3D>).
+import './fonts.css';
+
+export { default as ThemeProvider } from './ThemeProvider.svelte';
+export { default as Scene3D } from './Scene3D.svelte';
+export { default as Space3D } from './Space3D.svelte';
+export { default as Text } from './Text.svelte';
+export { default as Button } from './Button.svelte';
+export { default as ButtonGroup } from './ButtonGroup.svelte';
+export { default as Panel } from './Panel.svelte';
+export { default as Stack } from './Stack.svelte';
+export { default as Checkbox } from './Checkbox.svelte';
+export { default as Slider } from './Slider.svelte';
+export { default as Input } from './Input.svelte';
+export { default as Keyboard } from './Keyboard.svelte';
+export { default as Tag } from './Tag.svelte';
+export { default as Spinner } from './Spinner.svelte';
+export { default as ProgressBar } from './ProgressBar.svelte';
+export { default as Avatar } from './Avatar.svelte';
+export { default as Tooltip } from './Tooltip.svelte';
+export { default as Tabs } from './Tabs.svelte';
+export { default as Tab } from './Tab.svelte';
+export { default as Menu, type MenuItem } from './Menu.svelte';
+export { default as RadialMenu } from './RadialMenu.svelte';
+export { default as Modal } from './Modal.svelte';
+export { default as Toaster } from './Toaster.svelte';
+export { default as Surface, type SurfacePlacement, type SurfaceDesktopPlacement, type ScreenRegion } from './Surface.svelte';
+export { xr } from './xr.svelte';
+export { toaster, DEFAULT_TOAST_DURATION, type Toast, type ToastOptions } from './toast.svelte';
+export { defaultTheme, createTheme, toMeters } from './theme';
+export type { Theme, ButtonKind, ButtonSize, ButtonShape, Dimension, TypographyVariant, TagKind, TagVariant, TagSize, SpinnerSize, ToastKind, ProgressBarSize, AvatarSize, AvatarStatus, TooltipPlacement } from './theme';
+export { resolveButtonStyle } from './button-style';
+export { resolveCheckboxStyle, resolveTagStyle, resolveInputStyle, resolveKeyStyle, sliderFraction, sliderValueAt, nextIndex, initials, avatarColor, tooltipOffset } from './component-style';
+export { textFocus, type Editable } from './text-focus.svelte';
+export { edit, keyToAction, type EditAction, type Splice, type TextState } from './text-edit';
+export { KEYBOARD, type EnterKeyHint, type KeyboardPage, type ShiftState } from './keyboard-layout';
+export { stackLayout } from './layout-math';
+export { wedgeAt, wedgeCenter, RadialInput } from './radial-math';
+export type { ButtonProps, TextProps } from './types';
+export { ensure3d } from './aframe';
+export { everyFrame } from './aframe/frame';
+export { RAYCASTABLE, MOUSE_CURSOR, TROIKA_SCRIPT } from './aframe/scene';

@@ -1,0 +1,28 @@
+{
+  "name": "starter",
+  "private": true,
+  "version": "0.0.0",
+  "description": "An example app built with @gadxr/ui: a scene, laser hands, a menu, a text field.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "dependencies": {
+    "@gadxr/ui": "workspace:*",
+    "aframe": "^1.8.0",
+    "aframe-blink-controls": "workspace:*",
+    "aframe-bvh": "workspace:*",
+    "svelte": "^5.57.2"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^7.0.0",
+    "@tsconfig/svelte": "^5.0.8",
+    "svelte-check": "^4.4.6",
+    "typescript": "~6.0.2",
+    "vite": "^8.0.9",
+    "vite-plugin-mkcert": "^2.1.0"
+  }
+}

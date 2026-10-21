@@ -1,0 +1,13 @@
+{
+  "name": "aframe-blink-controls",
+  "private": true,
+  "version": "0.4.3",
+  "description": "Teleport controls for A-Frame: our fork of jure/aframe-blink-controls, copied in until the fork is published.",
+  "license": "MIT",
+  "main": "src/index.js",
+  "types": "index.d.ts",
+  "sideEffects": true,
+  "peerDependencies": {
+    "aframe": "^1.8.0"
+  }
+}

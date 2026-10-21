@@ -1,0 +1,24 @@
+{
+  "name": "aframe-bvh",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Fast raycasts against big static meshes (teleport, navmesh walking) in A-Frame, with three-mesh-bvh.",
+  "license": "MIT",
+  "type": "module",
+  "main": "src/index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./src/index.js"
+    }
+  },
+  "sideEffects": true,
+  "dependencies": {
+    "three": "npm:super-three@0.184.0",
+    "three-mesh-bvh": "^0.9.16"
+  },
+  "peerDependencies": {
+    "aframe": "^1.8.0"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "name": "@gadxr/ui",
+  "private": true,
+  "version": "0.0.0",
+  "description": "gadxr design system: Svelte 5 components that render as HTML, or as A-Frame entities in 3D.",
+  "type": "module",
+  "svelte": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "svelte": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "test": "node --test \"tests/*.test.mjs\"",
+    "check": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "peerDependencies": {
+    "aframe": "^1.8.0",
+    "svelte": "^5.0.0"
+  },
+  "devDependencies": {
+    "@tsconfig/svelte": "^5.0.8",
+    "aframe": "^1.8.0",
+    "svelte": "^5.57.2",
+    "svelte-check": "^4.4.6",
+    "typescript": "~6.0.2",
+    "vite": "^8.0.9"
+  }
+}
