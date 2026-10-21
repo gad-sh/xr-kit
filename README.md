@@ -24,33 +24,13 @@ The project needs Vite with `@sveltejs/vite-plugin-svelte`, Svelte 5 and A-Frame
 headset only offers Enter VR on https, so serve the dev server over https
 (`vite-plugin-mkcert`, as the starter does).
 
-The packages aren't on npm yet. Once they are, `pnpm add @gadxr/ui @gadxr/aframe-blink-controls
-@gadxr/aframe-bvh` replaces the linking below (and the Svelte version rule).
-
-Until then, link them. Clone this repo next to your project and run
-`pnpm install` in it:
+Install the library, and the A-Frame packages you use:
 
 ```sh
-git clone git@github.com:gad-sh/xr-kit.git gadxr-kit
-cd gadxr-kit && pnpm install
+pnpm add @gadxr/ui aframe
+pnpm add @gadxr/aframe-blink-controls  # teleport
+pnpm add @gadxr/aframe-bvh             # fast raycasts against big meshes
 ```
-
-Then depend on the packages from that folder with `link:` (the paths below assume it's
-named `gadxr-kit`). Edits in gadxr-kit show up in your project straight away.
-
-```json
-"dependencies": {
-  "@gadxr/ui": "link:../gadxr-kit/packages/ui",
-  "@gadxr/aframe-blink-controls": "link:../gadxr-kit/packages/aframe-blink-controls",
-  "@gadxr/aframe-bvh": "link:../gadxr-kit/packages/aframe-bvh",
-  "aframe": "^1.8.0",
-  "svelte": "^5.57.2"
-}
-```
-
-Linked packages use their own dependencies from this repo's `node_modules`. Vite still
-gives the page one Svelte, but svelte-check doesn't. Keep your `svelte` version the same as
-this repo's: a mismatch shows as a `Snippet` type error in `Modal.svelte`.
 
 Load A-Frame before everything else, because the library and both A-Frame packages use the
 `AFRAME` and `THREE` globals it defines:
@@ -74,3 +54,27 @@ app). In that case, don't import `aframe` as well. The library only reads the gl
 works unchanged. If you use `@gadxr/aframe-bvh`, also alias `'three'` in `vite.config.ts` to a module
 that re-exports the global `THREE`, so three-mesh-bvh doesn't bundle a second copy (see
 `packages/aframe-bvh/README.md`).
+
+### Working on the kit and an app together
+
+To change the kit while you use it in an app, link the packages from a clone instead of
+installing them from npm. Clone this repo next to your project and install it:
+
+```sh
+git clone git@github.com:gad-sh/xr-kit.git gadxr-kit
+cd gadxr-kit && pnpm install
+```
+
+Then point your dependencies at that folder (the paths assume it's named `gadxr-kit`).
+Edits there show up in your project straight away, with no build step:
+
+```json
+"@gadxr/ui": "link:../gadxr-kit/packages/ui",
+"@gadxr/aframe-blink-controls": "link:../gadxr-kit/packages/aframe-blink-controls",
+"@gadxr/aframe-bvh": "link:../gadxr-kit/packages/aframe-bvh"
+```
+
+Linked packages use their own dependencies from this repo's `node_modules`. Vite still
+gives the page one Svelte, but svelte-check doesn't. Keep your `svelte` version the same as
+this repo's: a mismatch shows as a `Snippet` type error in `Modal.svelte`. (Installed from
+npm, the library uses your project's Svelte, so this doesn't apply.)
