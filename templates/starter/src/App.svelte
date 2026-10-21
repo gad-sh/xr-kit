@@ -74,7 +74,7 @@
 		<a-entity light="type: ambient; intensity: 0.7"></a-entity>
 		<a-entity light="type: directional; intensity: 1.5" position="2 4 3"></a-entity>
 		<!-- `floor`: what you can teleport onto (blink-controls' collisionEntities). `bvh` (from
-		     aframe-bvh) makes raycasts against an entity's meshes fast: these are a few triangles,
+		     @gadxr/aframe-bvh) makes raycasts against an entity's meshes fast: these are a few triangles,
 		     but a detailed model or terrain you teleport onto needs it (the arc casts ~15 rays a frame). -->
 		<a-plane class="floor" bvh width="20" height="20" rotation="-90 0 0" color="#1d2335"></a-plane>
 		<!-- Two platforms to teleport up onto: their tops are `floor` too. The sides are too

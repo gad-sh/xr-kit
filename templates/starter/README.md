@@ -28,12 +28,12 @@ It also shows:
 
 - `<Scene3D>`, a floor, a sky and lights (plain A-Frame), and a camera rig with two
   `laser-controls` hands, so the controllers click the UI in VR.
-- Teleporting in VR with `blink-controls` from `aframe-blink-controls` (imported in
+- Teleporting in VR with `blink-controls` from `@gadxr/aframe-blink-controls` (imported in
   `main.ts`, after A-Frame). It lands on entities matching `collisionEntities` (the floor
   and two platforms have the `floor` class; their sides are too steep to land on) and moves the rig, so the hands and the `follow`/`hand` Surfaces
   come along while the `world` one stays put. For now the package is our fork, copied
   into the workspace (`packages/aframe-blink-controls`, see its README).
-- Fast raycasts with `bvh` from `aframe-bvh` (imported in `main.ts`, after A-Frame) on the
+- Fast raycasts with `bvh` from `@gadxr/aframe-bvh` (imported in `main.ts`, after A-Frame) on the
   floor and platforms. They're a few triangles, so it's there to copy: a detailed model or
   terrain you teleport onto needs it, because the arc casts 10–20 rays a frame while you aim.
   See `packages/aframe-bvh/README.md`.

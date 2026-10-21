@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "description": "An example app built with @gadxr/ui: a scene, laser hands, a menu, a text field.",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,8 +14,8 @@
   "dependencies": {
     "@gadxr/ui": "workspace:*",
     "aframe": "^1.8.0",
-    "aframe-blink-controls": "workspace:*",
-    "aframe-bvh": "workspace:*",
+    "@gadxr/aframe-blink-controls": "workspace:*",
+    "@gadxr/aframe-bvh": "workspace:*",
     "svelte": "^5.57.2"
   },
   "devDependencies": {

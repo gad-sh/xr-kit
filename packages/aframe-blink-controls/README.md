@@ -1,4 +1,4 @@
-# aframe-blink-controls (fork, copied in)
+# @gadxr/aframe-blink-controls (fork, copied in)
 
 Teleport controls (`blink-controls`) from [jure/aframe-blink-controls](https://github.com/jure/aframe-blink-controls),
 with our fixes. The fork is [gad-sh/aframe-blink-controls](https://github.com/gad-sh/aframe-blink-controls): the fixes
@@ -14,5 +14,5 @@ Fixes on top of upstream (one commit each, so they can go upstream as PRs):
 - The arc stops at the first surface it meets: one too steep to land on (a wall, a platform's side) is a miss,
   instead of the arc passing through it and landing behind or inside it.
 
-Import it once A-Frame's `AFRAME` global exists: `import 'aframe-blink-controls'` (after `import 'aframe'`, or
+Import it once A-Frame's `AFRAME` global exists: `import '@gadxr/aframe-blink-controls'` (after `import 'aframe'`, or
 anywhere in a page that loads A-Frame with a script tag).

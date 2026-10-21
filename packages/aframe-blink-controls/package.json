@@ -1,12 +1,23 @@
 {
-  "name": "aframe-blink-controls",
-  "private": true,
+  "name": "@gadxr/aframe-blink-controls",
   "version": "0.4.3",
-  "description": "Teleport controls for A-Frame: our fork of jure/aframe-blink-controls, copied in until the fork is published.",
+  "description": "Teleport controls for A-Frame: our fork of jure/aframe-blink-controls.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gad-sh/xr-kit.git",
+    "directory": "packages/aframe-blink-controls"
+  },
   "license": "MIT",
   "main": "src/index.js",
   "types": "index.d.ts",
   "sideEffects": true,
+  "files": [
+    "src",
+    "index.d.ts"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "peerDependencies": {
     "aframe": "^1.8.0"
   }

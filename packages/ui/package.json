@@ -1,10 +1,14 @@
 {
   "name": "@gadxr/ui",
-  "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "gadxr design system: Svelte 5 components that render as HTML, or as A-Frame entities in 3D.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gad-sh/xr-kit.git",
+    "directory": "packages/ui"
+  },
   "type": "module",
-  "svelte": "./src/index.ts",
   "exports": {
     ".": {
       "types": "./src/index.ts",
@@ -12,10 +16,25 @@
       "default": "./src/index.ts"
     }
   },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "svelte": "./dist/index.js",
+        "default": "./dist/index.js"
+      }
+    }
+  },
   "sideEffects": [
     "**/*.css"
   ],
   "scripts": {
+    "build": "svelte-package -i src -o dist",
+    "prepack": "pnpm build",
     "test": "node --test \"tests/*.test.mjs\"",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
@@ -24,6 +43,8 @@
     "svelte": "^5.0.0"
   },
   "devDependencies": {
+    "@sveltejs/package": "^3.0.1",
+    "@sveltejs/vite-plugin-svelte": "^7.0.0",
     "@tsconfig/svelte": "^5.0.8",
     "aframe": "^1.8.0",
     "svelte": "^5.57.2",
