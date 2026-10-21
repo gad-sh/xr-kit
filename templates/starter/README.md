@@ -3,9 +3,18 @@
 A small app built with `@gadxr/ui`, the gadxr design system, showing each way
 to use it: copy it to start a page that works on a screen and in a VR headset.
 
-**It currently only runs inside this repo.** It's a member of the pnpm workspace and
-depends on the library with `workspace:*`, so copying the folder somewhere else
-won't install.
+## Start a project from it
+
+```sh
+npx degit gad-sh/xr-kit/templates/starter my-app
+cd my-app
+pnpm install
+pnpm dev
+```
+
+The copy installs `@gadxr/ui`, `@gadxr/aframe-blink-controls` and `@gadxr/aframe-bvh` from
+npm. Change the `name` in its `package.json`, and its LICENSE if your project uses another
+license.
 
 ## What it shows
 
@@ -31,12 +40,12 @@ It also shows:
 - Teleporting in VR with `blink-controls` from `@gadxr/aframe-blink-controls` (imported in
   `main.ts`, after A-Frame). It lands on entities matching `collisionEntities` (the floor
   and two platforms have the `floor` class; their sides are too steep to land on) and moves the rig, so the hands and the `follow`/`hand` Surfaces
-  come along while the `world` one stays put. For now the package is our fork, copied
-  into the workspace (`packages/aframe-blink-controls`, see its README).
+  come along while the `world` one stays put. The package is our fork of
+  `jure/aframe-blink-controls`, with fixes (see its README).
 - Fast raycasts with `bvh` from `@gadxr/aframe-bvh` (imported in `main.ts`, after A-Frame) on the
   floor and platforms. They're a few triangles, so it's there to copy: a detailed model or
   terrain you teleport onto needs it, because the arc casts 10–20 rays a frame while you aim.
-  See `packages/aframe-bvh/README.md`.
+  See [its README](https://www.npmjs.com/package/@gadxr/aframe-bvh).
 - An entity of your own taking clicks: the box has the `raycastable` class (`RAYCASTABLE`).
 - Controller buttons as events on the hand entity (`onybuttondown`; also `abuttondown`,
   `bbuttondown`, `xbuttondown`, `gripdown`, `triggerdown`, …).
@@ -50,18 +59,22 @@ It also shows:
 
 ## Run it
 
-From the repo root:
+In a copy, `pnpm install` and `pnpm dev`. Inside the kit, from the repo root:
 
 ```sh
 pnpm install
-pnpm --filter starter dev
+pnpm dev
 ```
+
+Inside the kit it uses the local packages, not npm's: its version ranges match their
+versions, and the kit's `.npmrc` links workspace packages that match. `pnpm check` fails
+if one of them came from npm instead (after a version bump: update the range here).
 
 It's served over https (`vite-plugin-mkcert`; a headset only offers Enter VR on https).
 If another dev server is already on port 5173, Vite picks the next free port.
 
-`pnpm --filter starter check` type-checks it (the root `npm run check` does too) and
-`pnpm --filter starter build` builds it.
+`pnpm check` type-checks it and `pnpm build` builds it (inside the kit:
+`pnpm --filter starter check` / `build`).
 
 ## Open it on a headset
 

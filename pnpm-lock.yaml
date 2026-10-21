@@ -84,13 +84,13 @@ importers:
   templates/starter:
     dependencies:
       '@gadxr/aframe-blink-controls':
-        specifier: workspace:*
+        specifier: ^0.4.3
         version: link:../../packages/aframe-blink-controls
       '@gadxr/aframe-bvh':
-        specifier: workspace:*
+        specifier: ^0.1.0
         version: link:../../packages/aframe-bvh
       '@gadxr/ui':
-        specifier: workspace:*
+        specifier: ^0.1.1
         version: link:../../packages/ui
       aframe:
         specifier: ^1.8.0

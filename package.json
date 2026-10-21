@@ -7,7 +7,7 @@
     "dev": "pnpm --filter starter dev",
     "gallery": "pnpm --filter gallery dev",
     "build": "pnpm --filter @gadxr/ui build",
-    "check": "pnpm --filter @gadxr/ui check && pnpm --filter starter check && pnpm --filter gallery check",
+    "check": "node scripts/check-starter-links.mjs && pnpm --filter @gadxr/ui check && pnpm --filter starter check && pnpm --filter gallery check",
     "test": "node --test \"packages/ui/tests/*.test.mjs\""
   },
   "packageManager": "pnpm@9.14.2+sha512.6e2baf77d06b9362294152c851c4f278ede37ab1eba3a55fda317a4a17b209f4dbb973fb250a77abc463a341fcb1f17f17cfa24091c4eb319cda0d9b84278387"

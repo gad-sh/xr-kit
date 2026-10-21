@@ -7,7 +7,7 @@ Building blocks for WebXR pages with Svelte 5 and A-Frame 1.8.
 | [`packages/ui`](packages/ui) (`@gadxr/ui`) | The design system: Svelte components that render as HTML on a screen, or as A-Frame entities in 3D and VR |
 | [`packages/aframe-blink-controls`](packages/aframe-blink-controls) (`@gadxr/aframe-blink-controls`) | Teleport (`blink-controls`), our fork of `jure/aframe-blink-controls` |
 | [`packages/aframe-bvh`](packages/aframe-bvh) (`@gadxr/aframe-bvh`) | Fast raycasts against big static meshes with three-mesh-bvh (`bvh`) |
-| [`templates/starter`](templates/starter) | The app to copy: each way to use the library, on a screen and in a headset |
+| [`templates/starter`](templates/starter) | The app to copy (`npx degit gad-sh/xr-kit/templates/starter my-app`): each way to use the library, on a screen and in a headset |
 | [`apps/gallery`](apps/gallery) | Every component in 2D and 3D, [live on GitHub Pages](https://gad-sh.github.io/xr-kit/) |
 
 ```sh
