@@ -1,4 +1,4 @@
-# aframe-bvh
+# @gadxr/aframe-bvh
 
 Fast raycasts against big static meshes in A-Frame, with
 [three-mesh-bvh](https://github.com/gkjohnson/three-mesh-bvh). A bounding volume hierarchy lets a
@@ -8,7 +8,7 @@ every collision mesh it comes near.
 
 ```js
 import 'aframe';      // first: this package patches A-Frame's three.js
-import 'aframe-bvh';
+import '@gadxr/aframe-bvh';
 ```
 
 ```html

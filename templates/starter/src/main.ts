@@ -2,9 +2,9 @@
 // Imports run in order, so it's loaded before the app and the library.
 import 'aframe';
 // Teleport (`blink-controls`, used on the left hand in App.svelte).
-import 'aframe-blink-controls';
+import '@gadxr/aframe-blink-controls';
 // Fast raycasts against meshes with the `bvh` component (the floor and platforms, for teleport).
-import 'aframe-bvh';
+import '@gadxr/aframe-bvh';
 import { mount } from 'svelte';
 import App from './App.svelte';
 
