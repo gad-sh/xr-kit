@@ -15,3 +15,57 @@ pnpm dev     # the starter, on https://localhost:5173 (or the next free port)
 pnpm check   # svelte-check for the library and the starter
 pnpm test    # the library's tests (Node's test runner)
 ```
+
+## Using it in an existing project
+
+The project needs Vite with `@sveltejs/vite-plugin-svelte`, Svelte 5 and A-Frame 1.8. A
+headset only offers Enter VR on https, so serve the dev server over https
+(`vite-plugin-mkcert`, as the starter does).
+
+The packages aren't published yet. Clone this repo next to your project and run
+`pnpm install` in it:
+
+```sh
+git clone git@github.com:gad-sh/xr-kit.git gadxr-kit
+cd gadxr-kit && pnpm install
+```
+
+Then depend on the packages from that folder with `link:` (the paths below assume it's
+named `gadxr-kit`). Edits in gadxr-kit show up in your project straight away.
+
+```json
+"dependencies": {
+  "@gadxr/ui": "link:../gadxr-kit/packages/ui",
+  "aframe-blink-controls": "link:../gadxr-kit/packages/aframe-blink-controls",
+  "aframe-bvh": "link:../gadxr-kit/packages/aframe-bvh",
+  "aframe": "^1.8.0",
+  "svelte": "^5.57.2"
+}
+```
+
+Linked packages use their own dependencies from this repo's `node_modules`. Vite still
+gives the page one Svelte, but svelte-check doesn't. Keep your `svelte` version the same as
+this repo's: a mismatch shows as a `Snippet` type error in `Modal.svelte`.
+
+Load A-Frame before everything else, because the library and both A-Frame packages use the
+`AFRAME` and `THREE` globals it defines:
+
+```ts
+// main.ts
+import 'aframe';
+import 'aframe-blink-controls'; // only if you use teleport
+import 'aframe-bvh';            // only if you use bvh
+import { mount } from 'svelte';
+import App from './App.svelte';
+
+mount(App, { target: document.getElementById('app')! });
+```
+
+Then import components from `@gadxr/ui` and put the 3D ones in a `<Scene3D>`.
+`templates/starter/src/App.svelte` shows each way to use them.
+
+You can keep loading A-Frame with a `<script>` tag instead of importing it (still before the
+app). In that case, don't import `aframe` as well. The library only reads the globals, so it
+works unchanged. If you use `aframe-bvh`, also alias `'three'` in `vite.config.ts` to a module
+that re-exports the global `THREE`, so three-mesh-bvh doesn't bundle a second copy (see
+`packages/aframe-bvh/README.md`).
