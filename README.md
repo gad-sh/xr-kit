@@ -11,14 +11,28 @@ Building blocks for WebXR pages with Svelte 5 and A-Frame 1.8.
 | [`templates/spa`](templates/spa) | A mostly-2D single page app to copy (`npx degit gad-sh/xr-kit/templates/spa my-app`): SvelteKit, HTML pages, and a VR section that loads A-Frame only when it's opened |
 | [`apps/gallery`](apps/gallery) | Every component in 2D and 3D, [live on GitHub Pages](https://gad-sh.github.io/xr-kit/) |
 
+## Start a new project
+
+Copy a template with [degit](https://github.com/Rich-Harris/degit) (it downloads the folder,
+without the kit's git history), then install and run it:
+
 ```sh
+npx degit gad-sh/xr-kit/templates/starter my-app
+cd my-app
 pnpm install
-pnpm dev     # the starter, on https://localhost:5173 (or the next free port)
-pnpm spa     # the single page app template
-pnpm gallery # the gallery
-pnpm check   # svelte-check for the library, the templates and the gallery
-pnpm test    # the library's tests (Node's test runner)
+pnpm dev
 ```
+
+Pick the template that fits:
+
+- **`templates/starter`**: one page for a screen and a VR headset, with a scene, laser
+  hands, teleport, and every way to place UI. Start here for a VR-first app.
+- **`templates/spa`** (`npx degit gad-sh/xr-kit/templates/spa my-app`): a mostly-2D app
+  with SvelteKit, HTML pages, and a VR section that loads A-Frame only when it's opened.
+
+A copy installs the gadxr packages from npm and works with npm too. Each template's README
+says what it shows. Change the `name` in the copy's `package.json`, and its LICENSE if your
+project uses another license.
 
 ## Using it in an existing project
 
@@ -81,3 +95,16 @@ Linked packages use their own dependencies from this repo's `node_modules`. Vite
 gives the page one Svelte, but svelte-check doesn't. Keep your `svelte` version the same as
 this repo's: a mismatch shows as a `Snippet` type error in `Modal.svelte`. (Installed from
 npm, the library uses your project's Svelte, so this doesn't apply.)
+
+## Developing the kit
+
+To work on the kit itself, in a clone of this repo:
+
+```sh
+pnpm install
+pnpm dev     # the starter, on https://localhost:5173 (or the next free port)
+pnpm spa     # the single page app template
+pnpm gallery # the gallery
+pnpm check   # svelte-check for the library, the templates and the gallery
+pnpm test    # the library's tests (Node's test runner)
+```
