@@ -21,7 +21,8 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm check # svelte-check: the library, the starter, the gallery
+      - run: pnpm check # svelte-check: the library, the templates, the gallery
       - run: pnpm test
       - run: pnpm build # the library's dist/, as published
+      - run: pnpm --filter spa build
       - run: pnpm --filter gallery build # what the Pages workflow deploys
