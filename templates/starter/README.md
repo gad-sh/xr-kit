@@ -13,7 +13,8 @@ pnpm dev
 ```
 
 The copy installs `@gadxr/ui`, `@gadxr/aframe-blink-controls` and `@gadxr/aframe-bvh` from
-npm. Change the `name` in its `package.json`, and its LICENSE if your project uses another
+npm. It works with npm too. Its `pnpm-workspace.yaml` lets pnpm 11 install A-Frame 1.8,
+which pulls one of its own dependencies from git. Change the `name` in its `package.json`, and its LICENSE if your project uses another
 license.
 
 ## What it shows
@@ -59,7 +60,8 @@ It also shows:
 
 ## Run it
 
-In a copy, `pnpm install` and `pnpm dev`. Inside the kit, from the repo root:
+In a copy, `pnpm install` and `pnpm dev`. Inside the kit, run pnpm from the repo root, not
+from this folder (its `pnpm-workspace.yaml` would make it a project of its own):
 
 ```sh
 pnpm install
