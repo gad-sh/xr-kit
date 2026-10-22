@@ -1,6 +1,6 @@
 # gadxr-kit
 
-Building blocks for WebXR pages with Svelte 5 and A-Frame 1.8.
+Building blocks for WebXR pages with Svelte 5 and A-Frame 1.8. [View the Component Gallery](https://gad-sh.github.io/xr-kit/)
 
 | Package | What it is |
 | --- | --- |
