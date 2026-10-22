@@ -1,0 +1,27 @@
+# Type checks, tests and builds on every pull request and push to main, so a broken library
+# shows up before it's merged and published.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6 # version from package.json's packageManager
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check # svelte-check: the library, the starter, the gallery
+      - run: pnpm test
+      - run: pnpm build # the library's dist/, as published
+      - run: pnpm --filter gallery build # what the Pages workflow deploys
