@@ -8,13 +8,15 @@ Building blocks for WebXR pages with Svelte 5 and A-Frame 1.8.
 | [`packages/aframe-blink-controls`](packages/aframe-blink-controls) (`@gadxr/aframe-blink-controls`) | Teleport (`blink-controls`), our fork of `jure/aframe-blink-controls` |
 | [`packages/aframe-bvh`](packages/aframe-bvh) (`@gadxr/aframe-bvh`) | Fast raycasts against big static meshes with three-mesh-bvh (`bvh`) |
 | [`templates/starter`](templates/starter) | The app to copy (`npx degit gad-sh/xr-kit/templates/starter my-app`): each way to use the library, on a screen and in a headset |
+| [`templates/spa`](templates/spa) | A mostly-2D single page app to copy (`npx degit gad-sh/xr-kit/templates/spa my-app`): SvelteKit, HTML pages, and a VR section that loads A-Frame only when it's opened |
 | [`apps/gallery`](apps/gallery) | Every component in 2D and 3D, [live on GitHub Pages](https://gad-sh.github.io/xr-kit/) |
 
 ```sh
 pnpm install
 pnpm dev     # the starter, on https://localhost:5173 (or the next free port)
+pnpm spa     # the single page app template
 pnpm gallery # the gallery
-pnpm check   # svelte-check for the library and the starter
+pnpm check   # svelte-check for the library, the templates and the gallery
 pnpm test    # the library's tests (Node's test runner)
 ```
 
@@ -47,7 +49,8 @@ mount(App, { target: document.getElementById('app')! });
 ```
 
 Then import components from `@gadxr/ui` and put the 3D ones in a `<Scene3D>`.
-`templates/starter/src/App.svelte` shows each way to use them.
+`templates/starter/src/App.svelte` shows each way to use them, and `templates/spa` an app
+of 2D pages with SvelteKit.
 
 You can keep loading A-Frame with a `<script>` tag instead of importing it (still before the
 app). In that case, don't import `aframe` as well. The library only reads the globals, so it
