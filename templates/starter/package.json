@@ -12,10 +12,10 @@
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "dependencies": {
-    "@gadxr/ui": "workspace:*",
+    "@gadxr/ui": "^0.1.1",
     "aframe": "^1.8.0",
-    "@gadxr/aframe-blink-controls": "workspace:*",
-    "@gadxr/aframe-bvh": "workspace:*",
+    "@gadxr/aframe-blink-controls": "^0.4.3",
+    "@gadxr/aframe-bvh": "^0.1.0",
     "svelte": "^5.57.2"
   },
   "devDependencies": {
