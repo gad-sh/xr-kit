@@ -1,0 +1,34 @@
+{
+  "name": "@gadxr/aframe-physics",
+  "version": "0.1.0",
+  "description": "Rigid body physics for A-Frame with crashcat (pure JavaScript): static meshes, falling boxes, thrown balls.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gad-sh/xr-kit.git",
+    "directory": "packages/aframe-physics"
+  },
+  "license": "MIT",
+  "type": "module",
+  "main": "src/index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./src/index.js"
+    }
+  },
+  "sideEffects": true,
+  "files": [
+    "src",
+    "index.d.ts"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "crashcat": "0.0.5"
+  },
+  "peerDependencies": {
+    "aframe": "^1.8.0"
+  }
+}

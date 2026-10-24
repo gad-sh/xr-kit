@@ -75,12 +75,13 @@
 		<a-entity light="type: directional; intensity: 1.5" position="2 4 3"></a-entity>
 		<!-- `floor`: what you can teleport onto (blink-controls' collisionEntities). `bvh` (from
 		     @gadxr/aframe-bvh) makes raycasts against an entity's meshes fast: these are a few triangles,
-		     but a detailed model or terrain you teleport onto needs it (the arc casts ~15 rays a frame). -->
-		<a-plane class="floor" bvh width="20" height="20" rotation="-90 0 0" color="#1d2335"></a-plane>
+		     but a detailed model or terrain you teleport onto needs it (the arc casts ~15 rays a frame).
+		     `physics-body="type: static"` (@gadxr/aframe-physics) makes them solid for thrown balls. -->
+		<a-plane class="floor" bvh physics-body="type: static" width="20" height="20" rotation="-90 0 0" color="#1d2335"></a-plane>
 		<!-- Two platforms to teleport up onto: their tops are `floor` too. The sides are too
 		     steep to land on (landingMaxAngle), so aiming at one turns the arc red. -->
-		<a-box class="floor" bvh position="3.5 0.4 -5" width="2" height="0.8" depth="2" color="#2B3150"></a-box>
-		<a-box class="floor" bvh position="-4 1.2 -8" width="2.5" height="2.4" depth="2.5" color="#3A4266"></a-box>
+		<a-box class="floor" bvh physics-body="type: static" position="3.5 0.4 -5" width="2" height="0.8" depth="2" color="#2B3150"></a-box>
+		<a-box class="floor" bvh physics-body="type: static" position="-4 1.2 -8" width="2.5" height="2.4" depth="2.5" color="#3A4266"></a-box>
 
 		<!-- Your own entities take clicks too: put the `raycastable` class on the one with the mesh. -->
 		<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
@@ -113,7 +114,8 @@
 				blink-controls="cameraRig: #rig; teleportOrigin: #camera; collisionEntities: .floor"
 				onybuttondown={() => (menuOpen = !menuOpen)}
 			></a-entity>
-			<a-entity id="rightHand" laser-controls="hand: right">
+			<!-- Hold B for a ball (ball-thrower); let go to throw it. -->
+			<a-entity id="rightHand" laser-controls="hand: right" ball-thrower>
 				<!-- VR: hold the right grip, aim with the thumbstick, release. -->
 				<RadialMenu dimension="3d" controller="#rightHand" hand="right" openOn="gripdown" closeOn="gripup" items={reactions} onselect={react} />
 			</a-entity>
