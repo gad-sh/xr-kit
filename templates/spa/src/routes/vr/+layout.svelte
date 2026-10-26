@@ -15,7 +15,7 @@
 {#await aframe}
 	<p class="loading">Loading the scene…</p>
 {:then}
-	<Scene3D>
+	<Scene3D class="vr-scene">
 		<a-sky color="#0b0e18"></a-sky>
 		<a-entity light="type: ambient; intensity: 0.7"></a-entity>
 		<a-entity light="type: directional; intensity: 1.5" position="2 4 3"></a-entity>
@@ -33,5 +33,11 @@
 <style>
 	.loading {
 		padding-top: 48px;
+	}
+	/* The scene covers the window, not just <main>: A-Frame puts its VR button at the bottom
+	   right of <a-scene>, which would otherwise have no height. */
+	:global(a-scene.vr-scene) {
+		position: fixed;
+		inset: 0;
 	}
 </style>
