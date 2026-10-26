@@ -9,6 +9,7 @@ Building blocks for WebXR pages with Svelte 5 and A-Frame 1.8. [View the Compone
 | [`packages/aframe-bvh`](packages/aframe-bvh) (`@gadxr/aframe-bvh`) | Fast raycasts against big static meshes with three-mesh-bvh (`bvh`) |
 | [`templates/starter`](templates/starter) | The app to copy (`npx degit gad-sh/xr-kit/templates/starter my-app`): each way to use the library, on a screen and in a headset |
 | [`templates/spa`](templates/spa) | A mostly-2D single page app to copy (`npx degit gad-sh/xr-kit/templates/spa my-app`): SvelteKit, HTML pages, and a VR section that loads A-Frame only when it's opened |
+| [`templates/ar`](templates/ar) | An AR page to copy (`npx degit gad-sh/xr-kit/templates/ar my-app`): place a model in your room on a Quest, with laser UI on your wrist |
 | [`apps/gallery`](apps/gallery) | Every component in 2D and 3D, [live on GitHub Pages](https://gad-sh.github.io/xr-kit/) |
 
 ## Start a new project
@@ -29,6 +30,8 @@ Pick the template that fits:
   hands, teleport, and every way to place UI. Start here for a VR-first app.
 - **`templates/spa`** (`npx degit gad-sh/xr-kit/templates/spa my-app`): a mostly-2D app
   with SvelteKit, HTML pages, and a VR section that loads A-Frame only when it's opened.
+- **`templates/ar`** (`npx degit gad-sh/xr-kit/templates/ar my-app`): mixed reality on a
+  Quest: passthrough, placing a model on a real table or floor, and UI on your wrist.
 
 A copy installs the gadxr packages from npm and works with npm too. Each template's README
 says what it shows. Change the `name` in the copy's `package.json`, and its LICENSE if your
@@ -104,6 +107,7 @@ To work on the kit itself, in a clone of this repo:
 pnpm install
 pnpm dev     # the starter, on https://localhost:5173 (or the next free port)
 pnpm spa     # the single page app template
+pnpm ar      # the AR template
 pnpm gallery # the gallery
 pnpm check   # svelte-check for the library, the templates and the gallery
 pnpm test    # the library's tests (Node's test runner)

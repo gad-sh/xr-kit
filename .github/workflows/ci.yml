@@ -25,4 +25,5 @@ jobs:
       - run: pnpm test
       - run: pnpm build # the library's dist/, as published
       - run: pnpm --filter spa build
+      - run: pnpm --filter ar build
       - run: pnpm --filter gallery build # what the Pages workflow deploys
