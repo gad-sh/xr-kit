@@ -1,6 +1,15 @@
-# gadxr-kit
+<h1 align="center">gad xr-kit</h1>
 
-Building blocks for WebXR pages with Svelte 5 and A-Frame 1.8. [View the Component Gallery](https://gad-sh.github.io/xr-kit/)
+<p align="center">
+    <img alt="NPM Version" src="https://img.shields.io/npm/v/@gadxr/ui">
+</p>
+
+<p align="center"><strong>An all-in-one kit for building websites that progressively enhance with WebXR.</strong></p><p align="center">For use in mobile desktop and headset.</strong>
+Built on Svelte 5, A-Frame 1.8, and Three.js. </p>
+
+<p align="center">
+  <a href="https://gad-sh.github.io/xr-kit/">View the Component Gallery</a>
+</p>
 
 | Package | What it is |
 | --- | --- |
