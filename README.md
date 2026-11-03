@@ -11,6 +11,13 @@ Built on Svelte 5, A-Frame 1.8, and Three.js. </p>
   <a href="https://gad-sh.github.io/xr-kit/">View the Component Gallery</a>
 </p>
 
+<p align="center">
+  <img src="docs/gifs/mesh-teleport.gif" width="24%" alt="Teleporting across a large mesh">
+  <img src="docs/gifs/rounded-glass.gif" width="24%" alt="Rounded glass buttons">
+  <img src="docs/gifs/vr-keyboard.gif" width="24%" alt="VR keyboard">
+  <img src="docs/gifs/html-to-3d.gif" width="24%" alt="HTML panel turning into 3D">
+</p>
+
 | Package | What it is |
 | --- | --- |
 | [`packages/ui`](packages/ui) (`@gadxr/ui`) | The design system: Svelte components that render as HTML on a screen, or as A-Frame entities in 3D and VR |
