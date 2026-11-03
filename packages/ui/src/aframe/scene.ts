@@ -1,12 +1,18 @@
 // What <Scene3D> does to its <a-scene>, kept free of Svelte so it's tested in Node: the
-// mouse cursor and lasers aim at `.raycastable`, the mouse cursor is removed in VR, and
-// troika-text (3D labels) is loaded if the page didn't load it.
+// mouse cursor and lasers aim at `.raycastable`, the mouse cursor is removed in VR, taps on a
+// phone in AR click too, and troika-text (3D labels) is loaded if the page didn't load it.
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 // Cursors only hit entities with this class (on an entity that owns a mesh).
 export const RAYCASTABLE = 'raycastable';
 export const MOUSE_CURSOR = 'rayOrigin: mouse; fuse: false';
+// For an XR session: casts along the ray of a select from an input source with no hand (a
+// screen tap on a phone in AR, a Cardboard's button), so controllers stay with their lasers.
+export const TAP_CURSOR = 'rayOrigin: xrselect; hand: none; fuse: false';
+// Where the tap cursor points between taps (A-Frame's cursor points it there after one): away
+// from everything, so it hovers nothing.
+const AWAY = { origin: { x: 0, y: 9999, z: 0 }, direction: { x: 0, y: 1, z: 0 } };
 export const TROIKA_SCRIPT = 'https://unpkg.com/aframe-troika-text@0.14.0/dist/aframe-troika-text.min.js';
 
 export type SceneOptions = {
@@ -57,6 +63,39 @@ export function setupScene(scene: any, { cursor = MOUSE_CURSOR, mouseCursorInVR 
 	// scene), so its mouseleaves un-hover buttons a laser is still on. Remove it in VR
 	// (raycaster off first, which sends the leaves for anything it hovers); restore it after.
 	// enter-vr also fires for non-immersive fullscreen; only a real XR session counts.
+	// A finger isn't a mouse: once it lifts, nothing is under it. The mouse cursor keeps its ray
+	// where the touch ended, so the button you tapped would stay hovered: point it away (after
+	// the cursor's own touchend listener on the canvas has clicked).
+	const onTouchEnd = (event: TouchEvent) => {
+		if (event.target !== scene.canvas || event.touches.length || !scene.hasAttribute('cursor')) return;
+		scene.setAttribute('raycaster', AWAY);
+	};
+	window.addEventListener('touchend', onTouchEnd);
+	cleanups.push(() => window.removeEventListener('touchend', onTouchEnd));
+
+	// Taps in an XR session: an entity of its own, not the scene, which hears the lasers' events.
+	let tapCursor: any;
+	const onSession = (event: Event) => {
+		const session = event.type === 'enter-vr' && !!scene.xrSession;
+		if (session === !!tapCursor) return;
+		if (session) {
+			tapCursor = document.createElement('a-entity');
+			tapCursor.setAttribute('raycaster', { objects: `.${RAYCASTABLE}`, ...AWAY });
+			tapCursor.setAttribute('cursor', TAP_CURSOR);
+			scene.appendChild(tapCursor);
+		} else {
+			tapCursor.remove();
+			tapCursor = undefined;
+		}
+	};
+	scene.addEventListener('enter-vr', onSession);
+	scene.addEventListener('exit-vr', onSession);
+	cleanups.push(() => {
+		scene.removeEventListener('enter-vr', onSession);
+		scene.removeEventListener('exit-vr', onSession);
+		tapCursor?.remove();
+	});
+
 	if (!mouseCursorInVR) {
 		let removed = false;
 		const onVR = (event: Event) => {

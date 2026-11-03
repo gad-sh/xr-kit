@@ -1,0 +1,31 @@
+{
+  "name": "@gadxr/aframe-tap-to-move",
+  "version": "0.1.0",
+  "description": "Tap (click, or point a laser and pull the trigger) a spot on the floor to move there, in A-Frame: on a phone, a desktop, or in VR.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gad-sh/xr-kit.git",
+    "directory": "packages/aframe-tap-to-move"
+  },
+  "license": "MIT",
+  "type": "module",
+  "main": "src/index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./src/index.js"
+    }
+  },
+  "sideEffects": true,
+  "files": [
+    "src",
+    "index.d.ts"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "aframe": "^1.8.0"
+  }
+}

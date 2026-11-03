@@ -12,8 +12,8 @@ pnpm install
 pnpm dev
 ```
 
-The copy installs `@gadxr/ui`, `@gadxr/aframe-blink-controls` and `@gadxr/aframe-bvh` from
-npm. It works with npm too. Its `pnpm-workspace.yaml` lets pnpm 11 install A-Frame 1.8,
+The copy installs `@gadxr/ui`, `@gadxr/aframe-blink-controls`, `@gadxr/aframe-bvh` and
+`@gadxr/aframe-tap-to-move` from npm. It works with npm too. Its `pnpm-workspace.yaml` lets pnpm 11 install A-Frame 1.8,
 which pulls one of its own dependencies from git. Change the `name` in its `package.json`, and its LICENSE if your project uses another
 license.
 
@@ -29,7 +29,7 @@ A-Frame entities inside it; a `Surface` switches a piece of UI between the two.
 | Box `Surface` (`screen="top-left" vr="hand"`): a radio `ButtonGroup`, a toggle, a `Slider` that change a box in the scene | HTML, top left | 3D, on your left wrist |
 | "Preview VR layout" toggle, outside the scene | HTML | (not shown) |
 | Menu `open` (slides it in and out) | M | Y on the left controller |
-| Teleport (`blink-controls` on the left hand) | (WASD and the mouse) | Left thumbstick: forward to aim, release to jump; left/right turns |
+| Moving around | Tap or click the floor (`tap-to-move` on the rig) to glide there; WASD and dragging to look | Pick in the menu: Teleport (`blink-controls`, left thumbstick: forward to aim, release to jump; left/right turns), or Tap to move (point a laser at the floor and pull the trigger to jump there) |
 | Reactions `RadialMenu` | HTML: hold E, aim with the mouse, release | 3D on the right controller: hold grip, aim with the thumbstick, release |
 | `<Toaster />` in a `Surface` (`screen="bottom-right" vr="follow"`) | HTML, bottom right | 3D, following your gaze, up and to the right |
 | `<Keyboard />` | (a 3D field takes the physical keyboard) | 3D, opens while a field has focus |
@@ -43,6 +43,12 @@ It also shows:
   and two platforms have the `floor` class; their sides are too steep to land on) and moves the rig, so the hands and the `follow`/`hand` Surfaces
   come along while the `world` one stays put. The package is our fork of
   `jure/aframe-blink-controls`, with fixes (see its README).
+- Tap to move with `tap-to-move` from `@gadxr/aframe-tap-to-move` (imported in `main.ts`, after
+  A-Frame) on the rig. On a phone or a desktop you tap or click the floor (the same `floor`
+  entities) and glide there. In VR, while the menu's movement is set to Tap to move, you point
+  a laser at the floor and pull the trigger to jump there; `blink-controls` is removed then, so
+  the thumbstick doesn't teleport (or turn). A tap on the UI, or on a panel in front of the
+  floor, doesn't move you.
 - Fast raycasts with `bvh` from `@gadxr/aframe-bvh` (imported in `main.ts`, after A-Frame) on the
   floor and platforms. They're a few triangles, so it's there to copy: a detailed model or
   terrain you teleport onto needs it, because the arc casts 10–20 rays a frame while you aim.

@@ -7,6 +7,7 @@ Building blocks for WebXR pages with Svelte 5 and A-Frame 1.8. [View the Compone
 | [`packages/ui`](packages/ui) (`@gadxr/ui`) | The design system: Svelte components that render as HTML on a screen, or as A-Frame entities in 3D and VR |
 | [`packages/aframe-blink-controls`](packages/aframe-blink-controls) (`@gadxr/aframe-blink-controls`) | Teleport (`blink-controls`), our fork of `jure/aframe-blink-controls` |
 | [`packages/aframe-bvh`](packages/aframe-bvh) (`@gadxr/aframe-bvh`) | Fast raycasts against big static meshes with three-mesh-bvh (`bvh`) |
+| [`packages/aframe-tap-to-move`](packages/aframe-tap-to-move) (`@gadxr/aframe-tap-to-move`) | Tap or click the floor to move there (`tap-to-move`): on a phone, a desktop, or with a laser in VR |
 | [`templates/starter`](templates/starter) | The app to copy (`npx degit gad-sh/xr-kit/templates/starter my-app`): each way to use the library, on a screen and in a headset |
 | [`templates/spa`](templates/spa) | A mostly-2D single page app to copy (`npx degit gad-sh/xr-kit/templates/spa my-app`): SvelteKit, HTML pages, and a VR section that loads A-Frame only when it's opened |
 | [`apps/gallery`](apps/gallery) | Every component in 2D and 3D, [live on GitHub Pages](https://gad-sh.github.io/xr-kit/) |
@@ -46,6 +47,7 @@ Install the library, and the A-Frame packages you use:
 pnpm add @gadxr/ui aframe
 pnpm add @gadxr/aframe-blink-controls  # teleport
 pnpm add @gadxr/aframe-bvh             # fast raycasts against big meshes
+pnpm add @gadxr/aframe-tap-to-move     # tap the floor to move
 ```
 
 Load A-Frame before everything else, because the library and both A-Frame packages use the
@@ -56,6 +58,7 @@ Load A-Frame before everything else, because the library and both A-Frame packag
 import 'aframe';
 import '@gadxr/aframe-blink-controls'; // only if you use teleport
 import '@gadxr/aframe-bvh';            // only if you use bvh
+import '@gadxr/aframe-tap-to-move';    // only if you use tap-to-move
 import { mount } from 'svelte';
 import App from './App.svelte';
 

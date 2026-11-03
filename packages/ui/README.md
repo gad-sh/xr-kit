@@ -60,8 +60,12 @@ The [starter app](https://github.com/gad-sh/xr-kit/tree/main/templates/starter) 
 rest: HTML on a screen and 3D in VR from one `Surface`, theming, the VR keyboard, controller
 buttons, teleport and per-frame code that keeps running in a headset.
 
-Teleport and fast raycasts against big meshes are separate packages:
-[`@gadxr/aframe-blink-controls`](https://www.npmjs.com/package/@gadxr/aframe-blink-controls)
+On a phone, taps click the 3D UI like the mouse does, both on the page and in AR. In AR,
+`Scene3D` adds a cursor for screen taps while the session lasts.
+
+Teleport, tap to move and fast raycasts against big meshes are separate packages:
+[`@gadxr/aframe-blink-controls`](https://www.npmjs.com/package/@gadxr/aframe-blink-controls),
+[`@gadxr/aframe-tap-to-move`](https://www.npmjs.com/package/@gadxr/aframe-tap-to-move)
 and [`@gadxr/aframe-bvh`](https://www.npmjs.com/package/@gadxr/aframe-bvh).
 
 ## License

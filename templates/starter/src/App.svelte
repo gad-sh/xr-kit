@@ -29,6 +29,10 @@
 	const theme = createTheme({ colors: { button: { secondary: { fill: '#2B3150', hover: '#3A4266', active: '#4A5480' } } } });
 
 	let menuOpen = $state(true);
+	// How you move in VR: 0 teleports (left thumbstick), 1 moves where you point a laser and pull
+	// the trigger. On a screen you always tap or click the floor (there's no thumbstick).
+	let vrMovement = $state(0);
+	const tapToMove = $derived(!xr.presenting || vrMovement === 1);
 	let name = $state('');
 	const colors = ['#E11900', '#276EF1', '#05944F'];
 	let color = $state(1);
@@ -45,6 +49,14 @@
 			box!.object3D.position.y = 1.2 + 0.1 * Math.sin(performance.now() / 600);
 		});
 	});
+
+	const help = $derived(
+		!xr.presenting
+			? 'Tap or click the floor to move · Hold E for reactions · M hides'
+			: vrMovement === 1
+				? 'Trigger on the floor moves you · grip: reactions · Y hides'
+				: 'Left stick teleports · trigger clicks · grip: reactions · Y hides'
+	);
 
 	const reactions = [{ label: '👍' }, { label: '👋' }, { label: '🎉' }, { label: '❤️' }];
 	const react = (item: { label: string }) => toaster.info(`You sent ${item.label}`);
@@ -73,7 +85,7 @@
 		<a-sky color="#0b0e18"></a-sky>
 		<a-entity light="type: ambient; intensity: 0.7"></a-entity>
 		<a-entity light="type: directional; intensity: 1.5" position="2 4 3"></a-entity>
-		<!-- `floor`: what you can teleport onto (blink-controls' collisionEntities). `bvh` (from
+		<!-- `floor`: what you can teleport or tap to move onto (collisionEntities). `bvh` (from
 		     @gadxr/aframe-bvh) makes raycasts against an entity's meshes fast: these are a few triangles,
 		     but a detailed model or terrain you teleport onto needs it (the arc casts ~15 rays a frame). -->
 		<a-plane class="floor" bvh width="20" height="20" rotation="-90 0 0" color="#1d2335"></a-plane>
@@ -97,7 +109,10 @@
 			onclick={() => toaster.info('You clicked the box')}
 		></a-box>
 
-		<a-entity id="rig">
+		<!-- The rig moves you around: tap or click the floor to move there (tap-to-move, from
+		     @gadxr/aframe-tap-to-move; it glides on a screen and jumps in VR). Anything in front of
+		     the floor, like a panel, blocks the tap. -->
+		<a-entity id="rig" tap-to-move="collisionEntities: .floor; enabled: {tapToMove}">
 			<!-- Required: a camera. Desktop `camera` Surfaces attach to it. -->
 			<a-entity id="camera" camera look-controls wasd-controls position="0 1.6 0">
 				<!-- 3D attached to the camera: toasts (toaster.*) stay in view, on desktop and in VR. -->
@@ -106,11 +121,12 @@
 			<!-- For VR: laser-controls on the hands (Scene3D aims them at the UI); the trigger clicks. -->
 			<!-- Controller buttons are events on the hand: Y (left) shows and hides the menu. -->
 			<!-- Teleport on the left thumbstick: push forward to aim, release to jump; left/right turns.
-			     It moves the whole rig, so the hands and `follow`/`hand` Surfaces come along. -->
+			     It moves the whole rig, so the hands and `follow`/`hand` Surfaces come along.
+			     Off while VR movement is set to tap to move (the menu), so the stick does nothing. -->
 			<a-entity
 				id="leftHand"
 				laser-controls="hand: left"
-				blink-controls="cameraRig: #rig; teleportOrigin: #camera; collisionEntities: .floor"
+				blink-controls={vrMovement === 1 ? undefined : 'cameraRig: #rig; teleportOrigin: #camera; collisionEntities: .floor'}
 				onybuttondown={() => (menuOpen = !menuOpen)}
 			></a-entity>
 			<a-entity id="rightHand" laser-controls="hand: right">
@@ -141,7 +157,14 @@
 						toaster.info(value ? `Hi, ${value}` : 'Hi');
 					}}
 				/>
-				<Text variant="LabelSmall" color="#AFAFAF" text={xr.presenting ? 'Left stick teleports · trigger clicks · grip: reactions · Y hides' : 'Hold E for reactions · M hides'} />
+				{#if xr.immersive}
+					<!-- In VR (and the VR preview): teleport, or point at the floor and pull the trigger. -->
+					<ButtonGroup mode="radio" bind:selected={vrMovement} size="compact" kind="secondary" gap={8}>
+						<Button label="Teleport" />
+						<Button label="Tap to move" />
+					</ButtonGroup>
+				{/if}
+				<Text variant="LabelSmall" color="#AFAFAF" text={help} />
 			</Panel>
 		</Surface>
 

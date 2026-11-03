@@ -54,6 +54,12 @@ importers:
         specifier: ^0.9.16
         version: 0.9.16(super-three@0.184.0)
 
+  packages/aframe-tap-to-move:
+    dependencies:
+      aframe:
+        specifier: ^1.8.0
+        version: 1.8.0
+
   packages/ui:
     devDependencies:
       '@sveltejs/package':
@@ -123,6 +129,9 @@ importers:
       '@gadxr/aframe-bvh':
         specifier: ^0.1.0
         version: link:../../packages/aframe-bvh
+      '@gadxr/aframe-tap-to-move':
+        specifier: ^0.1.0
+        version: link:../../packages/aframe-tap-to-move
       '@gadxr/ui':
         specifier: ^0.1.1
         version: link:../../packages/ui

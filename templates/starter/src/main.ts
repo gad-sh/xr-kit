@@ -5,6 +5,8 @@ import 'aframe';
 import '@gadxr/aframe-blink-controls';
 // Fast raycasts against meshes with the `bvh` component (the floor and platforms, for teleport).
 import '@gadxr/aframe-bvh';
+// Tap a spot on the floor to move there (`tap-to-move`, on the rig in App.svelte).
+import '@gadxr/aframe-tap-to-move';
 import { mount } from 'svelte';
 import App from './App.svelte';
 

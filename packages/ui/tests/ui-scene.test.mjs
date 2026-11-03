@@ -1,8 +1,9 @@
 // Scene3D's setup (src/aframe/scene.ts): lasers aim at .raycastable keeping their far,
-// the mouse cursor goes away in VR and comes back after, troika-text is loaded on demand.
+// the mouse cursor goes away in VR and comes back after, an XR session gets a cursor for
+// taps, a lifted finger hovers nothing, troika-text is loaded on demand.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { MOUSE_CURSOR, TROIKA_SCRIPT, setupScene } from '../src/aframe/scene.ts';
+import { MOUSE_CURSOR, TAP_CURSOR, TROIKA_SCRIPT, setupScene } from '../src/aframe/scene.ts';
 
 // Just enough of an A-Frame entity: records setAttribute/removeAttribute calls.
 class FakeEl extends EventTarget {
@@ -14,10 +15,19 @@ class FakeEl extends EventTarget {
     this.hasLoaded = loaded;
     this.children = children;
     this.xrSession = xrSession;
+    this.canvas = new EventTarget();
   }
   hasAttribute(name) { return this.attrs.has(name); }
   setAttribute(...args) { this.calls.push(args); }
   removeAttribute(name) { this.calls.push(['remove', name]); }
+  appendChild(child) {
+    this.children.push(child);
+    child.parentNode = this;
+  }
+  remove() {
+    this.parentNode.children.splice(this.parentNode.children.indexOf(this), 1);
+    this.parentNode = null;
+  }
   querySelectorAll(selector) {
     assert.equal(selector, '[laser-controls]');
     return this.children.flatMap((c) => [...(c.hasAttribute('laser-controls') ? [c] : []), ...c.querySelectorAll(selector)]);
@@ -32,7 +42,12 @@ globalThis.MutationObserver = class {
   disconnect() { this.disconnected = true; }
 };
 
+// Entities the setup creates (the tap cursor) are FakeEls too.
+globalThis.document = { createElement: () => new FakeEl() };
+globalThis.window = new EventTarget();
+
 const AIM = ['raycaster', 'objects', '.raycastable'];
+const AWAY = { origin: { x: 0, y: 9999, z: 0 }, direction: { x: 0, y: 1, z: 0 } };
 
 test('lasers in the scene aim at .raycastable once loaded, setting only `objects` (far is kept)', () => {
   const ready = new FakeEl({ attrs: ['laser-controls'] });
@@ -116,6 +131,72 @@ test('the default cursor is the mouse cursor; mouseCursorInVR keeps it in VR', (
   kept.dispatchEvent(new Event('enter-vr'));
   assert.deepEqual(kept.calls, []);
   keep();
+});
+
+test('an XR session gets a cursor for taps (hand: none), pointed away until one; removed after', () => {
+  const scene = new FakeEl();
+  const cleanup = setupScene(scene);
+
+  scene.dispatchEvent(new Event('enter-vr'));
+  assert.equal(scene.children.length, 0, 'not for fullscreen without a session');
+
+  scene.xrSession = {};
+  scene.dispatchEvent(new Event('enter-vr'));
+  scene.dispatchEvent(new Event('enter-vr'));
+  assert.equal(scene.children.length, 1, 'one, on the scene');
+  const [tap] = scene.children;
+  assert.deepEqual(tap.calls, [
+    ['raycaster', { objects: '.raycastable', ...AWAY }],
+    ['cursor', TAP_CURSOR],
+  ]);
+  assert.match(TAP_CURSOR, /rayOrigin: xrselect/);
+  assert.match(TAP_CURSOR, /hand: none/, 'controllers (left/right) stay with their lasers');
+
+  scene.xrSession = null;
+  scene.dispatchEvent(new Event('exit-vr'));
+  assert.equal(scene.children.length, 0);
+
+  scene.xrSession = {};
+  scene.dispatchEvent(new Event('enter-vr'));
+  assert.equal(scene.children.length, 1, 'again in the next session');
+  cleanup();
+  assert.equal(scene.children.length, 0, 'cleanup removes it');
+});
+
+test('the tap cursor comes with mouseCursorInVR too', () => {
+  const scene = new FakeEl({ xrSession: {} });
+  const cleanup = setupScene(scene, { mouseCursorInVR: true });
+  scene.dispatchEvent(new Event('enter-vr'));
+  assert.equal(scene.children.length, 1);
+  cleanup();
+});
+
+test('when the last finger lifts off the canvas, the mouse cursor points away (no hover left behind)', () => {
+  const scene = new FakeEl({ attrs: ['cursor'] });
+  const cleanup = setupScene(scene);
+  const touchEnd = (target, touches = []) => {
+    const event = new Event('touchend');
+    Object.defineProperty(event, 'target', { value: target });
+    event.touches = touches;
+    window.dispatchEvent(event);
+  };
+
+  touchEnd(scene.canvas, [{}]);
+  assert.deepEqual(scene.calls, [], 'a finger still down');
+  touchEnd(new EventTarget());
+  assert.deepEqual(scene.calls, [], 'a touch on HTML');
+  touchEnd(scene.canvas);
+  assert.deepEqual(scene.calls, [['raycaster', AWAY]]);
+
+  scene.calls = [];
+  scene.attrs.delete('cursor');
+  touchEnd(scene.canvas);
+  assert.deepEqual(scene.calls, [], 'no mouse cursor (in VR)');
+
+  scene.attrs.add('cursor');
+  cleanup();
+  touchEnd(scene.canvas);
+  assert.deepEqual(scene.calls, [], 'cleanup removes the listener');
 });
 
 // A page with a <head> that records the scripts added to it.
