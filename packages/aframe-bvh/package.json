@@ -1,0 +1,35 @@
+{
+  "name": "@xr-kit/aframe-bvh",
+  "version": "0.1.0",
+  "description": "Fast raycasts against big static meshes (teleport, navmesh walking) in A-Frame, with three-mesh-bvh.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gad-sh/xr-kit.git",
+    "directory": "packages/aframe-bvh"
+  },
+  "license": "MIT",
+  "type": "module",
+  "main": "src/index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./src/index.js"
+    }
+  },
+  "sideEffects": true,
+  "files": [
+    "src",
+    "index.d.ts"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "three": "npm:super-three@0.184.0",
+    "three-mesh-bvh": "^0.9.16"
+  },
+  "peerDependencies": {
+    "aframe": "^1.8.0"
+  }
+}

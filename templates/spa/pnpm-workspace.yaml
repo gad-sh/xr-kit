@@ -1,0 +1,6 @@
+# For a copy of the starter (inside the kit, the root pnpm-workspace.yaml applies). A-Frame 1.8
+# installs one of its own dependencies (three-bmfont-text) from git, which pnpm 11 blocks by
+# default in dependencies of dependencies. pnpm 9 needs the packages field.
+packages:
+  - .
+blockExoticSubdeps: false

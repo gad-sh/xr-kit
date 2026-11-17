@@ -1,0 +1,49 @@
+# Builds the docs (apps/docs) and the gallery (apps/gallery) and deploys them to GitHub Pages on
+# every push to main: the docs at the root, the gallery under gallery/. They're served at
+# https://gad.sh/xr/, which a rewrite on gad.sh proxies to https://gad-sh.github.io/xr-kit/, so
+# the docs are built with that base path. (Repo settings → Pages → Source must be "GitHub Actions".)
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6 # version from package.json's packageManager
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter docs build
+        env:
+          BASE_PATH: /xr
+      - run: pnpm --filter gallery build
+      - run: cp -R apps/gallery/dist apps/docs/build/gallery
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: apps/docs/build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
