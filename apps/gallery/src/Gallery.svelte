@@ -44,6 +44,7 @@
 	];
 
 	let clicks = $state(0);
+	let statusOpen = $state(true);
 	let selected = $state(false);
 	let radio = $state<number | number[] | undefined>(0);
 	let lastClicked = $state('');
@@ -145,7 +146,10 @@
 					<Button label="Night" />
 				</ButtonGroup>
 			</Panel>
-			<Panel title="Status">
+			<Panel title="Status" collapsible bind:open={statusOpen}>
+				{#snippet summary()}
+					<Text variant="LabelSmall" color="#8d93a0" align="left" text="Tags, spinners · tap the title to open" />
+				{/snippet}
 				<Stack gap={8}>
 					{#each tagKinds as kind}
 						<Tag {kind} label={kind} variant="solid" />

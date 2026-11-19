@@ -2,6 +2,8 @@
 	// A container: optional title, then children in a column. In 3D the children are
 	// stacked by measured size and the backing slab (solid or glass) grows to fit them.
 	// `action` goes in the top-right corner (e.g. a close button), outside the column.
+	// `collapsible` makes the whole title row a header that folds the panel (an accordion),
+	// with a caret on the right; folded, it shows `summary` (if any) instead of the children.
 	import type { Snippet } from 'svelte';
 	import { ensure3d } from './aframe';
 	import { getDimension, getTheme } from './context';
@@ -14,6 +16,11 @@
 		children?: Snippet;
 		title?: string;
 		action?: Snippet;
+		collapsible?: boolean;
+		// Unfolded (collapsible panels). Bindable.
+		open?: boolean;
+		// Shown instead of the children while folded.
+		summary?: Snippet;
 		kind?: 'solid' | 'glass';
 		// Background color override (solid panels), e.g. a toast's kind color.
 		fill?: string;
@@ -34,6 +41,9 @@
 		children,
 		title,
 		action,
+		collapsible = false,
+		open = $bindable(true),
+		summary,
 		kind = 'solid',
 		fill,
 		catchClicks = false,
@@ -60,12 +70,24 @@
 	const slot = is3d ? useSlot(() => outer) : () => ({ x: 0, y: 0 });
 	setStack(column);
 	const actionRow = is3d ? createStack(() => ({ direction: 'row', gap: m(8) })) : undefined;
-	// The action's row is centered on the title line (or just tucked into the corner).
-	const titleHeight = $derived(title ? m(t.typography.HeadingSmall.lineHeight) * t.space3d.textScale : (actionRow?.size.height ?? 0));
+	// The caret of a collapsible panel: px, drawn as two strokes in 3D.
+	const CARET = 16;
+	const caretSpace = $derived(collapsible ? m(CARET + (action ? 8 : 0)) : 0);
+	// The action's row is centered on the title line (or just tucked into the corner), left of the caret.
+	const titleHeight = $derived(
+		title ? m(t.typography.HeadingSmall.lineHeight) * t.space3d.textScale : Math.max(actionRow?.size.height ?? 0, collapsible ? m(CARET) : 0)
+	);
 	const actionPosition = $derived({
-		x: outer.width / 2 - m(padding) - (actionRow?.size.width ?? 0) / 2,
+		x: outer.width / 2 - m(padding) - caretSpace - (actionRow?.size.width ?? 0) / 2,
 		y: outer.height / 2 - m(padding) - titleHeight / 2,
 	});
+	const caretPosition = $derived({ x: outer.width / 2 - m(padding) - m(CARET) / 2, y: actionPosition.y });
+	// 3D: the header's hit area is the panel's whole top edge, down to the title line's foot.
+	const header = $derived({ width: outer.width, height: m(padding) + titleHeight + m(gap) / 2 });
+	let headerHovered = $state(false);
+	const caretColor = $derived(headerHovered ? t.colors.contentPrimary : t.colors.contentSecondary);
+	const stroke = $derived({ length: m(CARET * 0.5), width: m(2.2) });
+	const toggle = () => (open = !open);
 	const background = $derived(fill ?? t.colors.panel.fill);
 
 	const depth = 0.02;
@@ -97,9 +119,32 @@
 					position="0 0 0.001"
 				></a-entity>
 			{/if}
+			{#if collapsible}
+				<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions, a11y_mouse_events_have_key_events -->
+				<a-entity
+					class="raycastable"
+					geometry="primitive: plane; width: {header.width}; height: {header.height}"
+					material="visible: false"
+					position="0 {outer.height / 2 - header.height / 2} 0.002"
+					onclick={toggle}
+					onmouseenter={() => (headerHovered = true)}
+					onmouseleave={() => (headerHovered = false)}
+				></a-entity>
+				<!-- A chevron: down while folded, turned up while open. -->
+				<a-entity position="{caretPosition.x} {caretPosition.y} 0.005" rotation="0 0 {open ? 180 : 0}">
+					{#each [-1, 1] as side (side)}
+						<a-entity
+							geometry="primitive: plane; width: {stroke.length}; height: {stroke.width}"
+							material="shader: flat; color: {caretColor}"
+							position="{(side * stroke.length * Math.SQRT1_2) / 2} 0 0"
+							rotation="0 0 {side * 45}"
+						></a-entity>
+					{/each}
+				</a-entity>
+			{/if}
 			<a-entity position="{contentX} 0 0.005">
 				{#if title}<Text variant="HeadingSmall" text={title} />{/if}
-				{@render children?.()}
+				{#if !collapsible || open}{@render children?.()}{:else}{@render summary?.()}{/if}
 			</a-entity>
 			{#if action}
 				<a-entity position="{actionPosition.x} {actionPosition.y} 0.005">
@@ -112,20 +157,31 @@
 	<section
 		class="ui-panel"
 		class:glass={kind === 'glass'}
-		class:has-corner-action={action && !title}
-		style="--ui-fill: {background}; --ui-border: {fill ? `color-mix(in srgb, ${fill} 70%, white 10%)` : t.colors.panel.border}; --ui-radius: {t.panel.radius}px; --ui-padding: {padding}px; --ui-gap: {gap}px; --ui-align: {align === 'start'
+		class:has-corner-action={action && !title && !collapsible}
+		style="--ui-caret: {t.colors.contentSecondary}; --ui-caret-hover: {t.colors.contentPrimary}; --ui-duration: {t.animation.timing200}ms; --ui-fill: {background}; --ui-border: {fill ? `color-mix(in srgb, ${fill} 70%, white 10%)` : t.colors.panel.border}; --ui-radius: {t.panel.radius}px; --ui-padding: {padding}px; --ui-gap: {gap}px; --ui-align: {align === 'start'
 			? 'flex-start'
 			: 'center'}; {width ? `width: ${width}px;` : ''} {userStyle}"
 		{...rest}
 	>
-		{#if title && action}
+		{#if collapsible}
+			<!-- The whole title row is the header button (out to the panel's edges); an action sits beside it. -->
+			<div class="header">
+				<button class="fold" class:beside={action} type="button" aria-expanded={open} onclick={toggle}>
+					{#if title}<Text variant="HeadingSmall" text={title} />{/if}
+					<svg class="caret" class:up={open} viewBox="0 0 16 16" width={CARET} height={CARET} aria-hidden="true">
+						<path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+				</button>
+				{@render action?.()}
+			</div>
+		{:else if title && action}
 			<div class="header"><Text variant="HeadingSmall" text={title} />{@render action()}</div>
 		{:else if title}
 			<Text variant="HeadingSmall" text={title} />
 		{:else if action}
 			<div class="corner">{@render action()}</div>
 		{/if}
-		{@render children?.()}
+		{#if !collapsible || open}{@render children?.()}{:else}{@render summary?.()}{/if}
 	</section>
 {/if}
 
@@ -147,6 +203,44 @@
 		justify-content: space-between;
 		gap: 12px;
 		align-self: stretch;
+	}
+	.fold {
+		display: flex;
+		flex: 1;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		margin: calc(-1 * var(--ui-padding)) calc(-1 * var(--ui-padding)) 0;
+		padding: var(--ui-padding) var(--ui-padding) 0;
+		border: 0;
+		border-radius: var(--ui-radius) var(--ui-radius) 0 0;
+		background: none;
+		color: var(--ui-caret);
+		font: inherit;
+		text-align: left;
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+	}
+	.fold.beside {
+		margin-right: 0;
+		padding-right: 0;
+		border-top-right-radius: 0;
+	}
+	.fold:hover {
+		color: var(--ui-caret-hover);
+	}
+	.fold:focus-visible {
+		outline: 2px solid var(--ui-caret-hover);
+		outline-offset: -2px;
+	}
+	.caret {
+		display: block;
+		flex: none;
+		margin-left: auto;
+		transition: transform var(--ui-duration) ease;
+	}
+	.caret.up {
+		transform: rotate(180deg);
 	}
 	.has-corner-action {
 		position: relative;
