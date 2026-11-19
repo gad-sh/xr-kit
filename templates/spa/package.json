@@ -13,7 +13,7 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json"
   },
   "dependencies": {
-    "@xr-kit/ui": "^0.1.0",
+    "@xr-kit/ui": "^0.2.0",
     "aframe": "^1.8.0",
     "svelte": "^5.57.2"
   },
