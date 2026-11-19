@@ -127,7 +127,7 @@ importers:
   templates/spa:
     dependencies:
       '@xr-kit/ui':
-        specifier: ^0.1.0
+        specifier: ^0.2.0
         version: link:../../packages/ui
       aframe:
         specifier: ^1.8.0
@@ -170,7 +170,7 @@ importers:
         specifier: ^0.1.0
         version: link:../../packages/aframe-tap-to-move
       '@xr-kit/ui':
-        specifier: ^0.1.0
+        specifier: ^0.2.0
         version: link:../../packages/ui
       aframe:
         specifier: ^1.8.0

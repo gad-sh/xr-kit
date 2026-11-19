@@ -1,6 +1,6 @@
 {
   "name": "@xr-kit/ui",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "xr-kit design system: Svelte 5 components that render as HTML, or as A-Frame entities in 3D.",
   "license": "MIT",
   "repository": {
