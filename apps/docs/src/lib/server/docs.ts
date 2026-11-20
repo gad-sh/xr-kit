@@ -105,7 +105,7 @@ export async function render(page: Page): Promise<Segment[]> {
 					checkLink(page.slug, path);
 					return `<a href="${relativeHref(page.slug, slugOf(path), hash)}"${titleAttr}>${text}</a>`;
 				}
-				const external = /^https?:/.test(href) ? ' rel="noopener"' : '';
+				const external = /^https?:/.test(href) ? ' rel="noopener" data-sveltekit-reload' : '';
 				return `<a href="${href}"${titleAttr}${external}>${text}</a>`;
 			},
 		},
