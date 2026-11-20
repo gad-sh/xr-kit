@@ -20,16 +20,11 @@ Built on Svelte 5, A-Frame 1.8, and Three.js.</p>
   <img src="docs/gifs/html-to-3d.gif" width="24%" alt="HTML panel turning into 3D">
 </p>
 
-| Package | What it is |
-| --- | --- |
-| [`packages/ui`](packages/ui) (`@xr-kit/ui`) | The design system: Svelte components that render as HTML on a screen, or as A-Frame entities in 3D and VR |
-| [`packages/aframe-blink-controls`](packages/aframe-blink-controls) (`@xr-kit/aframe-blink-controls`) | Teleport (`blink-controls`), our fork of `jure/aframe-blink-controls` |
-| [`packages/aframe-bvh`](packages/aframe-bvh) (`@xr-kit/aframe-bvh`) | Fast raycasts against big static meshes with three-mesh-bvh (`bvh`) |
-| [`packages/aframe-tap-to-move`](packages/aframe-tap-to-move) (`@xr-kit/aframe-tap-to-move`) | Tap or click the floor to move there (`tap-to-move`): on a phone, a desktop, or with a laser in VR |
-| [`templates/starter`](templates/starter) | The app to copy (`npx degit gad-sh/xr-kit/templates/starter my-app`): each way to use the library, on a screen and in a headset |
-| [`templates/spa`](templates/spa) | A mostly-2D single page app to copy (`npx degit gad-sh/xr-kit/templates/spa my-app`): SvelteKit, HTML pages, and a VR section that loads A-Frame only when it's opened |
-| [`apps/gallery`](apps/gallery) | Every component in 2D and 3D, [live](https://gad.sh/xr/gallery/) |
-| [`apps/docs`](apps/docs) | The [docs site](https://gad.sh/xr/): guides, every component with live 2D/3D demos and props, and the same pages as Markdown for agents (`llms.txt`) |
+## Features
+
+- Component library with buttons, tabs, modals, etc. fully customisable via design tokens and theming
+- VR Keyboard for use with text inputs
+- Fast VR teleport controls. Using BVH an aiming raycast every frame stays cheap: ~0.015 ms instead of ~1-1.5 ms over a 2k-triangle terrain
 
 ## Start a new project
 
@@ -131,3 +126,16 @@ pnpm serve-docs # the docs site (pages are apps/docs/content/*.md)
 pnpm check   # svelte-check for the library, the templates, the gallery and the docs
 pnpm test    # the library's tests, and the docs' coverage of its API (Node's test runner)
 ```
+
+## Packages and apps
+
+| Package | What it is |
+| --- | --- |
+| [`packages/ui`](packages/ui) (`@xr-kit/ui`) | The design system: Svelte components that render as HTML on a screen, or as A-Frame entities in 3D and VR |
+| [`packages/aframe-blink-controls`](packages/aframe-blink-controls) (`@xr-kit/aframe-blink-controls`) | Teleport (`blink-controls`), our fork of `jure/aframe-blink-controls` |
+| [`packages/aframe-bvh`](packages/aframe-bvh) (`@xr-kit/aframe-bvh`) | Fast raycasts against big static meshes with three-mesh-bvh (`bvh`) |
+| [`packages/aframe-tap-to-move`](packages/aframe-tap-to-move) (`@xr-kit/aframe-tap-to-move`) | Tap or click the floor to move there (`tap-to-move`): on a phone, a desktop, or with a laser in VR |
+| [`templates/starter`](templates/starter) | The app to copy (`npx degit gad-sh/xr-kit/templates/starter my-app`): each way to use the library, on a screen and in a headset |
+| [`templates/spa`](templates/spa) | A mostly-2D single page app to copy (`npx degit gad-sh/xr-kit/templates/spa my-app`): SvelteKit, HTML pages, and a VR section that loads A-Frame only when it's opened |
+| [`apps/gallery`](apps/gallery) | Every component in 2D and 3D, [live](https://gad.sh/xr/gallery/) |
+| [`apps/docs`](apps/docs) | The [docs site](https://gad.sh/xr/): guides, every component with live 2D/3D demos and props, and the same pages as Markdown for agents (`llms.txt`) |
