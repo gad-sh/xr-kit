@@ -22,9 +22,9 @@ Built on Svelte 5, A-Frame 1.8, and Three.js.</p>
 
 ## Features
 
-- Component library with buttons, tabs, modals, etc. fully customisable via design tokens and theming
-- VR Keyboard for use with text inputs
-- Fast VR teleport controls. Using BVH an aiming raycast every frame stays cheap: ~0.015 ms instead of ~1-1.5 ms over a 2k-triangle terrain
+- **Component library** with buttons, tabs, modals, etc. fully customisable via design tokens and theming
+- **VR Keyboard** with laser controls for use with text inputs
+- **Fast VR teleport controls** using BVH for cheap raycasting: ~0.015 ms instead of ~1-1.5 ms over a 2k-triangle terrain
 
 ## Start a new project
 
